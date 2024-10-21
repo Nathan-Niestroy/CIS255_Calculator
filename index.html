@@ -1,61 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- This line defines the document type and language. It tells the browser this is an HTML5 document. -->
 
 <head>
     <meta charset="UTF-8">
+    <!-- This specifies the character encoding for the HTML document. UTF-8 can handle most characters. -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This makes the webpage responsive, adjusting to different screen sizes. -->
+
     <title>Simple Calculator</title>
+    <!-- This sets the title of the webpage that appears in the browser tab. -->
+
     <link rel="stylesheet" href="style.css">
+    <!-- This links to an external CSS file for styling the calculator (not provided here). -->
 </head>
 
 <body>
-
     <div class="calculator">
+        <!-- This is the main container for our calculator. -->
+
         <input type="text" id="result" disabled>
+        <!-- This is a text input where the result is displayed. The 'disabled' attribute means users can't type in it directly. -->
+
         <div class="buttons">
+            <!-- This container holds all the calculator buttons. -->
             <button onclick="clearResult()">C</button>
+            <!-- This button clears the current input. When clicked, it calls the clearResult() function. -->
+
             <button onclick="appendToResult('/')">/</button>
+            <!-- This button adds the division operator to the input. -->
+
             <button onclick="appendToResult('*')">*</button>
+            <!-- This button adds the multiplication operator to the input. -->
+
             <button onclick="appendToResult('-')">-</button>
+            <!-- This button adds the subtraction operator to the input. -->
+
             <button onclick="appendToResult('7')">7</button>
+            <!-- This button adds the number 7 to the input. -->
+
             <button onclick="appendToResult('8')">8</button>
+            <!-- This button adds the number 8 to the input. -->
+
             <button onclick="appendToResult('9')">9</button>
+            <!-- This button adds the number 9 to the input. -->
+
             <button onclick="appendToResult('+')">+</button>
+            <!-- This button adds the addition operator to the input. -->
+
             <button onclick="appendToResult('4')">4</button>
+            <!-- This button adds the number 4 to the input. -->
+
             <button onclick="appendToResult('5')">5</button>
+            <!-- This button adds the number 5 to the input. -->
+
             <button onclick="appendToResult('6')">6</button>
+            <!-- This button adds the number 6 to the input. -->
+
             <button onclick="appendToResult('1')">1</button>
+            <!-- This button adds the number 1 to the input. -->
+
             <button onclick="appendToResult('2')">2</button>
+            <!-- This button adds the number 2 to the input. -->
+
             <button onclick="appendToResult('3')">3</button>
+            <!-- This button adds the number 3 to the input. -->
+
             <button onclick="appendToResult('0')">0</button>
+            <!-- This button adds the number 0 to the input. -->
+
             <button onclick="calculateResult()">=</button>
+            <!-- This button calculates the result of the input when clicked. It calls the calculateResult() function. -->
         </div>
     </div>
 
     <script>
         let currentInput = '';
+        // This variable stores the current input string as the user clicks buttons.
 
         function appendToResult(value) {
-            currentInput += value;
-            document.getElementById('result').value = currentInput;
+            // This function adds a clicked value (number or operator) to the current input.
+            currentInput += value; // Append the value to the current input string.
+            document.getElementById('result').value = currentInput; 
+            // Update the displayed result with the current input.
         }
 
         function clearResult() {
-            currentInput = '';
-            document.getElementById('result').value = '';
+            // This function clears the input when the 'C' button is clicked.
+            currentInput = ''; // Reset the current input to an empty string.
+            document.getElementById('result').value = ''; 
+            // Clear the displayed result.
         }
 
         function calculateResult() {
+            // This function evaluates the current input when the '=' button is clicked.
             try {
-                currentInput = eval(currentInput).toString();
-                document.getElementById('result').value = currentInput;
+                currentInput = eval(currentInput).toString(); 
+                // Use eval to calculate the input string. Convert the result back to a string.
+                document.getElementById('result').value = currentInput; 
+                // Update the displayed result with the calculated value.
             } catch (error) {
-                document.getElementById('result').value = 'Error';
-                currentInput = '';
+                // If there's an error (like an invalid input), catch it and display an error message.
+                document.getElementById('result').value = 'Error'; 
+                currentInput = ''; // Reset current input to prevent further errors.
             }
         }
     </script>
-
 </body>
-
 </html>
