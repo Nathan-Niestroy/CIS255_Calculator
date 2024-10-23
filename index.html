@@ -1,110 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- This line defines the document type and language. It tells the browser this is an HTML5 document. -->
-
 <head>
+    <!-- Specify the character encoding for the document -->
     <meta charset="UTF-8">
-    <!-- This specifies the character encoding for the HTML document. UTF-8 can handle most characters. -->
-
+    <!-- Ensure the page is responsive on different devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- This makes the webpage responsive, adjusting to different screen sizes. -->
-
     <title>Simple Calculator</title>
-    <!-- This sets the title of the webpage that appears in the browser tab. -->
-
+    <!-- Link to external CSS stylesheet for styling -->
     <link rel="stylesheet" href="style.css">
-    <!-- This links to an external CSS file for styling the calculator (not provided here). -->
 </head>
-
 <body>
     <div class="calculator">
-        <!-- This is the main container for our calculator. -->
-
+        <!-- Input field to display the current calculation result -->
         <input type="text" id="result" disabled>
-        <!-- This is a text input where the result is displayed. The 'disabled' attribute means users can't type in it directly. -->
-
         <div class="buttons">
-            <!-- This container holds all the calculator buttons. -->
-            <button onclick="clearResult()">C</button>
-            <!-- This button clears the current input. When clicked, it calls the clearResult() function. -->
+            <!-- Buttons for calculator functions -->
+            <button onclick="clearResult()">C</button> <!-- Clear button -->
+            <button onclick="appendToResult('/')">/</button> <!-- Division button -->
+            <button onclick="appendToResult('*')">*</button> <!-- Multiplication button -->
+            <button onclick="appendToResult('-')">-</button> <!-- Subtraction button -->
+            <button onclick="appendToResult('7')">7</button> <!-- Number button -->
+            <button onclick="appendToResult('8')">8</button> <!-- Number button -->
+            <button onclick="appendToResult('9')">9</button> <!-- Number button -->
+            <button onclick="appendToResult('+')">+</button> <!-- Addition button -->
+            <button onclick="appendToResult('4')">4</button> <!-- Number button -->
+            <button onclick="appendToResult('5')">5</button> <!-- Number button -->
+            <button onclick="appendToResult('6')">6</button> <!-- Number button -->
+            <button onclick="appendToResult('1')">1</button> <!-- Number button -->
+            <button onclick="appendToResult('2')">2</button> <!-- Number button -->
+            <button onclick="appendToResult('3')">3</button> <!-- Number button -->
+            <button onclick="appendToResult('0')">0</button> <!-- Number button -->
+            <button onclick="calculateResult()">=</button> <!-- Calculate button -->
+        </div>
+    </div>
 
-            <button onclick="appendToResult('/')">/</button>
-            <!-- This button adds the division operator to the input. -->
+    <!-- Button to toggle the display of calculation history -->
+    <button id="historyButton" onclick="toggleHistory()">History</button>
 
-            <button onclick="appendToResult('*')">*</button>
-            <!-- This button adds the multiplication operator to the input. -->
-
-            <button onclick="appendToResult('-')">-</button>
-            <!-- This button adds the subtraction operator to the input. -->
-
-            <button onclick="appendToResult('7')">7</button>
-            <!-- This button adds the number 7 to the input. -->
-
-            <button onclick="appendToResult('8')">8</button>
-            <!-- This button adds the number 8 to the input. -->
-
-            <button onclick="appendToResult('9')">9</button>
-            <!-- This button adds the number 9 to the input. -->
-
-            <button onclick="appendToResult('+')">+</button>
-            <!-- This button adds the addition operator to the input. -->
-
-            <button onclick="appendToResult('4')">4</button>
-            <!-- This button adds the number 4 to the input. -->
-
-            <button onclick="appendToResult('5')">5</button>
-            <!-- This button adds the number 5 to the input. -->
-
-            <button onclick="appendToResult('6')">6</button>
-            <!-- This button adds the number 6 to the input. -->
-
-            <button onclick="appendToResult('1')">1</button>
-            <!-- This button adds the number 1 to the input. -->
-
-            <button onclick="appendToResult('2')">2</button>
-            <!-- This button adds the number 2 to the input. -->
-
-            <button onclick="appendToResult('3')">3</button>
-            <!-- This button adds the number 3 to the input. -->
-
-            <button onclick="appendToResult('0')">0</button>
-            <!-- This button adds the number 0 to the input. -->
-
-            <button onclick="calculateResult()">=</button>
-            <!-- This button calculates the result of the input when clicked. It calls the calculateResult() function. -->
+    <!-- Modal for displaying calculation history -->
+    <div id="historyModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="toggleHistory()">&times;</span> <!-- Close button -->
+            <h2>History</h2>
+            <ul id="historyList"></ul> <!-- List to show history entries -->
+            <button onclick="clearHistory()">Clear History</button> <!-- Button to clear history -->
         </div>
     </div>
 
     <script>
+        // Variable to store the current input from the user
         let currentInput = '';
-        // This variable stores the current input string as the user clicks buttons.
+        // Array to store calculation history
+        let history = [];
 
+        // Function to add a value to the current input
         function appendToResult(value) {
-            // This function adds a clicked value (number or operator) to the current input.
-            currentInput += value; // Append the value to the current input string.
-            document.getElementById('result').value = currentInput; 
-            // Update the displayed result with the current input.
+            currentInput += value; // Append the value to the input string
+            updateDisplay(); // Update the display
         }
 
+        // Function to clear the current input
         function clearResult() {
-            // This function clears the input when the 'C' button is clicked.
-            currentInput = ''; // Reset the current input to an empty string.
-            document.getElementById('result').value = ''; 
-            // Clear the displayed result.
+            currentInput = ''; // Reset the input string
+            updateDisplay(); // Update the display
         }
 
+        // Function to calculate the result of the current input
         function calculateResult() {
-            // This function evaluates the current input when the '=' button is clicked.
             try {
-                currentInput = eval(currentInput).toString(); 
-                // Use eval to calculate the input string. Convert the result back to a string.
-                document.getElementById('result').value = currentInput; 
-                // Update the displayed result with the calculated value.
-            } catch (error) {
-                // If there's an error (like an invalid input), catch it and display an error message.
-                document.getElementById('result').value = 'Error'; 
-                currentInput = ''; // Reset current input to prevent further errors.
+                // Evaluate the input string as a mathematical expression
+                const result = eval(currentInput);
+                // Save the calculation to history
+                history.push(`${currentInput} = ${result}`);
+                currentInput = result.toString(); // Convert result back to string
+            } catch {
+                currentInput = 'Error'; // Display error if evaluation fails
             }
+            updateDisplay(); // Update the display
+        }
+
+        // Function to update the display with the current input
+        function updateDisplay() {
+            document.getElementById('result').value = currentInput; // Show input in the result field
+            // Change background color to a random color
+            document.body.style.backgroundColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        }
+
+        // Function to toggle the visibility of the history modal
+        function toggleHistory() {
+            const modal = document.getElementById('historyModal');
+            // Show or hide the modal based on its current state
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+            displayHistory(); // Update the history display
+        }
+
+        // Function to display calculation history in the modal
+        function displayHistory() {
+            const historyList = document.getElementById('historyList');
+            // Populate the list with history entries
+            historyList.innerHTML = history.map(entry => `<li>${entry}</li>`).join('');
+        }
+
+        // Function to clear the history
+        function clearHistory() {
+            history = []; // Reset the history array
+            displayHistory(); // Update the history display
         }
     </script>
 </body>
