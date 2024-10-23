@@ -32,13 +32,13 @@
             <button onclick="appendToResult('0')">0</button> <!-- Number button -->
             <button onclick="calculateResult()">=</button> <!-- Calculate button -->
         </div>
+
+        <!-- Button to toggle the display of calculation history -->
+        <button id="historyButton" onclick="toggleHistory()">History</button>
     </div>
 
-    <!-- Button to toggle the display of calculation history -->
-    <button id="historyButton" onclick="toggleHistory()">History</button>
-
     <!-- Modal for displaying calculation history -->
-    <div id="historyModal" class="modal" style="display: none;">
+    <div id="historyModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="toggleHistory()">&times;</span> <!-- Close button -->
             <h2>History</h2>
@@ -105,6 +105,14 @@
         function clearHistory() {
             history = []; // Reset the history array
             displayHistory(); // Update the history display
+        }
+
+        // Close the modal when clicking outside of the modal content
+        window.onclick = function(event) {
+            const modal = document.getElementById('historyModal');
+            if (event.target === modal) {
+                toggleHistory();
+            }
         }
     </script>
 </body>

@@ -14,7 +14,7 @@ body {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
     padding: 20px; /* Space inside the calculator */
-    width: 300px; /* Fixed width for the calculator */
+    width: 320px; /* Fixed width for the calculator */
     position: relative; /* Positioning context for child elements */
 }
 
@@ -62,9 +62,7 @@ button:active {
 
 /* Style for the history button */
 #historyButton {
-    position: absolute; /* Position it absolutely within its container */
-    top: 10px; /* Position 10 pixels from the top */
-    right: 10px; /* Position 10 pixels from the right */
+    margin-top: 15px; /* Space above the history button */
     padding: 10px 15px; /* Space inside the button */
     font-size: 16px; /* Set font size */
     background: red; /* Red background for the button */
@@ -82,6 +80,7 @@ button:active {
 
 /* Style for the modal overlay */
 .modal {
+    display: none; /* Hidden by default */
     position: fixed; /* Fixed position to cover the entire screen */
     z-index: 1; /* Ensure modal is above other content */
     left: 0; /* Align to the left edge */
@@ -115,4 +114,9 @@ button:active {
 .close:hover {
     color: black; /* Darker color on hover */
     cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Show modal when active */
+.modal.show {
+    display: block; /* Show modal when it has the 'show' class */
 }
